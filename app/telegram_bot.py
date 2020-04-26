@@ -5,4 +5,5 @@ bot = telegram.Bot(token=telegram_token)
 
 
 def sendChannelMsg(text):
-    bot.sendMessage(chat_id='@ntd_swtch_alarm', text=f'{text}') #@ntd_swtch_alarm
+    if text is not None:
+        bot.sendMessage(chat_id='@swtch_alarm', text=f'{text}') #@swtch_alarm
