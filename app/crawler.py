@@ -3,18 +3,18 @@ import os
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from app.telegram_bot import sendChannelMsg
-from env.path import mac_chromedriver_path, mac_user_chrome_data_path
+from env.path import win_chromedriver_path, win_user_chrome_data_path
 
 tmon = "http://www.tmon.co.kr/deal/810158162"
 dwshop = "https://www.daewonshop.com/goods/goods_view.php?goodsNo=1000094791"
 ssg = "http://shinsegaemall.ssg.com/item/itemView.ssg?itemId=1000035429874"
 coupang = "https://www.coupang.com/vp/products/1384804427?isAddedCart="
-
-siteList = [tmon, dwshop, ssg, coupang]
+sofrano = "https://sofrano.com/product/detail.html?product_no=555"
+siteList = [tmon, dwshop, ssg, coupang, sofrano]
 
 
 def stock_crawler(url):
-    driver_path = mac_chromedriver_path
+    driver_path = win_chromedriver_path
 
     options = Options()
     options.page_load_strategy = 'normal'
@@ -27,7 +27,7 @@ def stock_crawler(url):
 
     options.add_argument('--log-level=3')
     options.add_argument('--disable-loggin')
-    options.add_argument(mac_user_chrome_data_path)
+    options.add_argument(win_user_chrome_data_path)
     driver = webdriver.Chrome(executable_path=driver_path, options=options)
 
     try:
@@ -85,6 +85,15 @@ def stock_crawler(url):
                 pass
             else:
                 print('coupang 재고 있음')
+                sendChannelMsg(f'지금 닌텐도 스위치 동물의 숲 에디션이 입고되었습니다.\n아래 링크로 접속하여 구매하세요.\n{url}')
+        elif url is sofrano:
+            el_stock = driver.find_elements_by_css_selector('#contents > div.xans-element-.xans-product.xans-product-detail > div.detailArea > div.infoArea > span.icon')
+            el_stock = el_stock[0].get_attribute('outerHTML')
+            if '일시품절' in el_stock:
+                # sendChannelMsg(f'현재 소프라노몰에 닌텐도 스위치 동물의 숲 에디션 재고가 없습니다.\n다시 확인하고 알려드릴게요!\n{url}')
+                pass
+            else:
+                print('sofrano 재고 있음')
                 sendChannelMsg(f'지금 닌텐도 스위치 동물의 숲 에디션이 입고되었습니다.\n아래 링크로 접속하여 구매하세요.\n{url}')
 
     except:
