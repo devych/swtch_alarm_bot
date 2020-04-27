@@ -5,7 +5,7 @@ from app.crawler import crawler
 schedule = BlockingScheduler()
 
 
-schedule.add_job(crawler, 'interval', id='ntd_swtch_crw', minutes=3, jitter=120)
+schedule.add_job(crawler, 'interval', id='ntd_swtch_crw', minutes=3, jitter=60)
 
 
 schedule.start()
