@@ -10,7 +10,9 @@ dwshop = "https://www.daewonshop.com/goods/goods_view.php?goodsNo=1000094791"
 ssg = "http://shinsegaemall.ssg.com/item/itemView.ssg?itemId=1000035429874"
 coupang = "https://www.coupang.com/vp/products/1384804427?isAddedCart="
 sofrano = "https://sofrano.com/product/detail.html?product_no=555"
-siteList = [tmon, dwshop, ssg, coupang, sofrano]
+gamewoori = "http://www.gamewoori.com/shop/shopbrand.html?type=M&xcode=005&mcode=001"
+nnmarket = "http://www.nnmarket.co.kr/shop/shopbrand.html?xcode=025&type=M&mcode=001"
+siteList = [tmon, dwshop, ssg, coupang, sofrano, gamewoori, nnmarket]
 
 
 def stock_crawler(url):
@@ -95,6 +97,27 @@ def stock_crawler(url):
             else:
                 print('sofrano 재고 있음')
                 sendChannelMsg(f'지금 닌텐도 스위치 동물의 숲 에디션이 입고되었습니다.\n아래 링크로 접속하여 구매하세요.\n{url}')
+        elif url is gamewoori:
+            el_stock = driver.find_elements_by_css_selector(
+                '#prdBrand > div.item-wrap > div:nth-child(1) > dl:nth-child(2)')
+            el_stock = el_stock[0].get_attribute('outerHTML')
+            if 'Sold Out' in el_stock:
+                # sendChannelMsg(f'현재 소프라노몰에 닌텐도 스위치 동물의 숲 에디션 재고가 없습니다.\n다시 확인하고 알려드릴게요!\n{url}')
+                pass
+            else:
+                print('gamewoori 재고 있음')
+                sendChannelMsg(f'지금 닌텐도 스위치 동물의 숲 에디션이 입고되었습니다.\n아래 링크로 접속하여 구매하세요.\n{url}')
+        elif url is nnmarket:
+            el_stock = driver.find_elements_by_css_selector(
+                '#prdBrand > div.item-wrap > div:nth-child(2) > dl:nth-child(1) > dd > ul')
+            el_stock = el_stock[0].get_attribute('outerHTML')
+            if 'Sold Out' in el_stock:
+                # sendChannelMsg(f'현재 nnmarket에 닌텐도 스위치 동물의 숲 에디션 재고가 없습니다.\n다시 확인하고 알려드릴게요!\n{url}')
+                pass
+            else:
+                print('nnmarket 재고 있음')
+                sendChannelMsg(f'지금 닌텐도 스위치 동물의 숲 에디션이 입고되었습니다.\n아래 링크로 접속하여 구매하세요.\n{url}')
+
 
     except:
         print('에러 발생')
